@@ -1,1 +1,3 @@
-Integration of <a href="https://uima.apache.org">Apache UIMA</a> functionality into the UBICITY Framework.
+Integration of current analytics modules like <a href="http://nlp.stanford.edu">StanfordNLP</a> or <a href="http://opennlp.apache.org">OpenNLP</a> as text processing components.
+
+Further integration of <a href="https://uima.apache.org">Apache UIMA</a> functionality into the UBICITY Framework planned...

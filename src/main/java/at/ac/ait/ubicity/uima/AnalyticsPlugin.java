@@ -19,10 +19,6 @@ package at.ac.ait.ubicity.uima;
 
 import at.ac.ait.ubicity.commons.interfaces.UbicityPlugin;
 
-/**
- *
- * @author jan
- */
-public interface UimaPlugin extends UbicityPlugin {
+public interface AnalyticsPlugin extends UbicityPlugin {
 
 }
