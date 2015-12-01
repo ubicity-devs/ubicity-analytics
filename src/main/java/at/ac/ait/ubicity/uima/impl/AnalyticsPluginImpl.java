@@ -1,7 +1,5 @@
 package at.ac.ait.ubicity.uima.impl;
 
-import java.util.List;
-
 import net.xeoh.plugins.base.annotations.PluginImplementation;
 import net.xeoh.plugins.base.annotations.events.Init;
 import net.xeoh.plugins.base.annotations.events.Shutdown;
@@ -35,8 +33,8 @@ public class AnalyticsPluginImpl extends BrokerConsumer implements AnalyticsPlug
 	private Producer producer;
 
 	class Producer extends BrokerProducer {
-		public Producer(PropertyLoader config) throws UbicityBrokerException {
-			super.init(config.getString("plugin.analytics.broker.user"), config.getString("plugin.analytics.broker.pwd"));
+		public Producer() throws UbicityBrokerException {
+			super.init();
 		}
 	}
 
@@ -48,10 +46,10 @@ public class AnalyticsPluginImpl extends BrokerConsumer implements AnalyticsPlug
 		String modelLoc = config.getString("plugin.analytics.models");
 
 		try {
-			super.init(config.getString("plugin.analytics.broker.user"), config.getString("plugin.analytics.broker.pwd"));
+			super.init();
 
 			setConsumer(this, config.getString("plugin.analytics.broker.consumer"));
-			producer = new Producer(config);
+			producer = new Producer();
 
 		} catch (Exception e) {
 			logger.error("During init caught exc.", e);
@@ -60,8 +58,8 @@ public class AnalyticsPluginImpl extends BrokerConsumer implements AnalyticsPlug
 		nerPipe = new NERPipeline();
 		nerPipe.init(modelLoc);
 
-		sentimentPipe = new SentimentPipeline();
-		sentimentPipe.init(modelLoc);
+		// sentimentPipe = new SentimentPipeline();
+		// sentimentPipe.init(modelLoc);
 
 		logger.info(name + " loaded");
 	}
@@ -102,12 +100,10 @@ public class AnalyticsPluginImpl extends BrokerConsumer implements AnalyticsPlug
 		}
 
 		// Run Standard Sentiment Analysis
-		if (destination.contains("." + sentimentPipe.getModuleId())) {
-			List<Integer> res = sentimentPipe.process(dto.getText());
-			dto.setAnalyticsResult(sentimentPipe.getModuleId(), sentimentPipe.aggregate(res));
-			event.setBody(dto.toJson());
-		}
-
+		/*
+		 * if (destination.contains("." + sentimentPipe.getModuleId())) { List<Integer> res = sentimentPipe.process(dto.getText());
+		 * dto.setAnalyticsResult(sentimentPipe.getModuleId(), sentimentPipe.aggregate(res)); event.setBody(dto.toJson()); }
+		 */
 		return event;
 	}
 
