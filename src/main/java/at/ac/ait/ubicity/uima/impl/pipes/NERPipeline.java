@@ -14,7 +14,7 @@ import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 public class NERPipeline implements AnalyticsPipeline {
 
 	private static final Logger logger = Logger.getLogger(NERPipeline.class);
-	private StanfordCoreNLP pipeline;
+	private static StanfordCoreNLP pipeline;
 
 	@Override
 	public String getModuleId() {
@@ -32,7 +32,8 @@ public class NERPipeline implements AnalyticsPipeline {
 		props.put("ner.model", modelLocation + "ner/english.all.3class.distsim.crf.ser.gz");
 		props.put("ner.useSUTime", "false");
 
-		pipeline = new StanfordCoreNLP(props);
+		if (pipeline == null)
+			pipeline = new StanfordCoreNLP(props);
 	}
 
 	@Override

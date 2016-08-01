@@ -15,7 +15,6 @@ import at.ac.ait.ubicity.commons.util.PropertyLoader;
 import at.ac.ait.ubicity.uima.AnalyticsPlugin;
 import at.ac.ait.ubicity.uima.impl.pipes.NERPipeline;
 import at.ac.ait.ubicity.uima.impl.pipes.NERPipeline.NamedEntities;
-import at.ac.ait.ubicity.uima.impl.pipes.SentimentPipeline;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -27,8 +26,8 @@ public class AnalyticsPluginImpl extends BrokerConsumer implements AnalyticsPlug
 	private static Logger logger = Logger.getLogger(AnalyticsPluginImpl.class);
 	private static Gson gson = new GsonBuilder().create();
 
-	private NERPipeline nerPipe;
-	private SentimentPipeline sentimentPipe;
+	private static NERPipeline nerPipe;
+	// private SentimentPipeline sentimentPipe;
 
 	private Producer producer;
 
@@ -55,8 +54,10 @@ public class AnalyticsPluginImpl extends BrokerConsumer implements AnalyticsPlug
 			logger.error("During init caught exc.", e);
 		}
 
-		nerPipe = new NERPipeline();
-		nerPipe.init(modelLoc);
+		if (nerPipe == null) {
+			nerPipe = new NERPipeline();
+			nerPipe.init(modelLoc);
+		}
 
 		// sentimentPipe = new SentimentPipeline();
 		// sentimentPipe.init(modelLoc);
@@ -88,7 +89,7 @@ public class AnalyticsPluginImpl extends BrokerConsumer implements AnalyticsPlug
 		}
 	}
 
-	private EventEntry processRSS(String destination, EventEntry event) {
+	private synchronized EventEntry processRSS(String destination, EventEntry event) {
 
 		RssDTO dto = gson.fromJson(event.getBody(), RssDTO.class);
 
