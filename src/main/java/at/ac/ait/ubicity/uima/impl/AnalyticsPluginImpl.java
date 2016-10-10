@@ -54,10 +54,8 @@ public class AnalyticsPluginImpl extends BrokerConsumer implements AnalyticsPlug
 			logger.error("During init caught exc.", e);
 		}
 
-		if (nerPipe == null) {
-			nerPipe = new NERPipeline();
-			nerPipe.init(modelLoc);
-		}
+		nerPipe = new NERPipeline();
+		nerPipe.init(modelLoc);
 
 		// sentimentPipe = new SentimentPipeline();
 		// sentimentPipe.init(modelLoc);
